@@ -322,11 +322,6 @@ flowchart TD
 ## Sơ đồ Use Case tổng quát của hệ thống CAB
 
 <img src="B7_UseCaseTongQuat.png" alt="Sơ đồ Use Case tổng quát" width="100%">
-# BƯỚC 8: ĐẶC TẢ USE CASE
-
-Bước này mô tả chi tiết các Use Case đã được xác định trong sơ đồ Use Case tổng quát ở Bước 7. Nội dung đặc tả tập trung vào Actor, mục tiêu, điều kiện tiên quyết, luồng sự kiện chính, luồng ngoại lệ và kết quả sau khi thực hiện.
-
----
 
 # BƯỚC 8: ĐẶC TẢ USE CASE
 
@@ -1894,47 +1889,16 @@ Mô tả quá trình hệ thống gửi thông báo đến người dùng thông
 
 ---
 
-# 9.1. Quy ước xây dựng Sequence Diagram
+# BƯỚC 9: QUY TRÌNH NGHIỆP VỤ (BUSINESS PROCESS)
 
-Các Sequence Diagram của hệ thống được xây dựng theo mô hình tương tác giữa Actor, giao diện, xử lý nghiệp vụ và dữ liệu.
+## BP-01. Quy trình đặt xe
 
-### Thành phần chính
+<img src="images/Đặt xe.jpg" alt="BP-01 - Quy trình đặt xe" width="100%">
 
-- **Actor:** Người hoặc hệ thống bên ngoài tương tác với hệ thống CAB.
-- **Boundary:** Đại diện cho giao diện mà Actor sử dụng để tương tác với hệ thống.
-- **Control:** Thực hiện xử lý nghiệp vụ của Use Case.
-- **Entity:** Đại diện cho dữ liệu được lưu trữ và truy xuất.
-- **Payment Provider:** Hệ thống bên ngoài thực hiện xử lý thanh toán.
-- **Notification Provider:** Hệ thống bên ngoài thực hiện gửi thông báo.
+## BP-02. Quy trình điều phối chuyến
 
-### Nguyên tắc
+<img src="images/Điều phối chuyến.jpg" alt="BP-02 - Quy trình điều phối chuyến" width="100%">
 
-- Actor khởi tạo tương tác đối với các Use Case do Actor thực hiện.
-- Boundary tiếp nhận yêu cầu từ Actor và chuyển yêu cầu đến Control.
-- Control thực hiện xử lý nghiệp vụ.
-- Control truy xuất hoặc cập nhật Entity khi cần thiết.
-- Các dịch vụ bên ngoài chỉ được sử dụng khi nghiệp vụ yêu cầu.
-- Kết quả xử lý được trả về Boundary để hiển thị cho Actor.
-- Sequence Diagram phải thể hiện đúng thứ tự thời gian của các sự kiện.
-- Các luồng thay thế và ngoại lệ quan trọng phải được thể hiện bằng nhánh `alt` hoặc ghi chú tương ứng khi vẽ trên Visual Paradigm.
+## BP-03. Quy trình thực hiện chuyến
 
-# 9.2. Quan hệ giữa Use Case và Sequence Diagram
-
-| Use Case | Sequence Diagram |
-|---|---|
-| Đăng nhập | SD-01 – Đăng nhập |
-| Đăng ký tài khoản | SD-02 – Đăng ký tài khoản |
-| Đặt xe | SD-03 – Đặt xe |
-| Nhận chuyến | SD-04 – Nhận chuyến |
-| Điều phối chuyến | SD-05 – Điều phối chuyến |
-| Theo dõi chuyến đi | SD-06 – Theo dõi chuyến đi |
-| Thanh toán | SD-07 – Thanh toán |
-| Đánh giá chuyến đi | SD-08 – Đánh giá chuyến đi |
-| Xử lý thanh toán | SD-09 – Xử lý thanh toán |
-| Gửi thông báo | SD-10 – Gửi thông báo |
-
-# 9.3. Kết quả Bước 9
-
-Sau khi hoàn thành Bước 9, hệ thống có các Sequence Diagram mô tả chi tiết các nghiệp vụ chính từ lúc Actor gửi yêu cầu đến khi hệ thống xử lý và trả kết quả.
-
-Các Sequence Diagram này là cơ sở để tiếp tục xây dựng mô hình lớp, xác định các lớp Boundary, Control, Entity và các phương thức cần thiết trong thiết kế hệ thống.
+<img src="images/Thực hiện chuyến.jpg" alt="BP-03 - Quy trình thực hiện chuyến" width="100%">
