@@ -1893,12 +1893,30 @@ Mô tả quá trình hệ thống gửi thông báo đến người dùng thông
 
 ## BP-01. Quy trình đặt xe
 
-<img src="images/Đặt xe.jpg" alt="BP-01 - Quy trình đặt xe" width="100%">
+<img src="Đặt xe.jpg" alt="BP-01 - Quy trình đặt xe" width="100%">
 
 ## BP-02. Quy trình điều phối chuyến
 
-<img src="images/Điều phối chuyến.jpg" alt="BP-02 - Quy trình điều phối chuyến" width="100%">
+<img src="Điều phối chuyến.jpg" alt="BP-02 - Quy trình điều phối chuyến" width="100%">
 
 ## BP-03. Quy trình thực hiện chuyến
 
-<img src="images/Thực hiện chuyến.jpg" alt="BP-03 - Quy trình thực hiện chuyến" width="100%">
+<img src="Thực hiện chuyến.jpg" alt="BP-03 - Quy trình thực hiện chuyến" width="100%">
+
+# BƯỚC 10: QUY TẮC NGHIỆP VỤ HỆ THỐNG (BUSINESS RULES)
+
+| Mã Quy tắc | Nhóm Quy tắc | Tên Quy tắc | Nội dung chi tiết |
+|---|---|---|---|
+| **BR-01** | Đặt & Quản lý chuyến | **Kiểm tra thông tin đặt xe** | Hệ thống chỉ tiếp nhận yêu cầu đặt xe khi khách hàng đã cung cấp đầy đủ các thông tin cần thiết như điểm đón và điểm đến. |
+| **BR-02** | Đặt & Quản lý chuyến | **Tính toán thông tin chuyến** | Sau khi thông tin đặt xe hợp lệ, hệ thống xác định thông tin chuyến dựa trên điểm đón, điểm đến và các thông tin liên quan đến chuyến đi. |
+| **BR-03** | Đặt & Quản lý chuyến | **Xác nhận yêu cầu đặt xe** | Khách hàng phải xác nhận thông tin chuyến trước khi hệ thống chính thức tạo yêu cầu chuyến đi và chuyển sang quá trình điều phối tài xế. |
+| **BR-04** | Điều phối & Ghép chuyến | **Tìm kiếm tài xế phù hợp** | Hệ thống tự động tìm kiếm các tài xế phù hợp với yêu cầu chuyến đi dựa trên trạng thái hoạt động và khả năng nhận chuyến của tài xế. |
+| **BR-05** | Điều phối & Ghép chuyến | **Gửi yêu cầu nhận chuyến** | Hệ thống gửi yêu cầu chuyến đến tài xế phù hợp. Khi tài xế không nhận chuyến, hệ thống tiếp tục xử lý để tìm tài xế khác theo quy trình điều phối. |
+| **BR-06** | Điều phối & Ghép chuyến | **Xác nhận tài xế** | Khi một tài xế chấp nhận yêu cầu chuyến, hệ thống ghi nhận tài xế được ghép với chuyến và cập nhật thông tin chuyến cho khách hàng. |
+| **BR-07** | Điều phối & Ghép chuyến | **Không tìm được tài xế** | Nếu hệ thống không tìm được tài xế phù hợp, hệ thống phải thông báo cho khách hàng và xử lý yêu cầu theo trạng thái tương ứng của chuyến. |
+| **BR-08** | Hủy chuyến | **Hủy yêu cầu chuyến** | Khách hàng có thể hủy yêu cầu chuyến theo các điều kiện được hệ thống quy định. Khi hủy, hệ thống phải cập nhật trạng thái chuyến và thông báo kết quả cho các bên liên quan. |
+| **BR-09** | Thực hiện chuyến | **Bắt đầu chuyến** | Sau khi tài xế nhận chuyến và đến điểm đón, chuyến chỉ được chuyển sang trạng thái thực hiện khi đáp ứng điều kiện bắt đầu chuyến theo nghiệp vụ của hệ thống. |
+| **BR-10** | Thực hiện chuyến | **Cập nhật trạng thái chuyến** | Trong quá trình thực hiện, hệ thống phải cập nhật trạng thái chuyến tương ứng với từng giai đoạn như đã nhận chuyến, đang thực hiện và hoàn thành. |
+| **BR-11** | Thực hiện chuyến | **Hoàn thành chuyến** | Khi chuyến đi kết thúc, hệ thống ghi nhận chuyến đã hoàn thành và lưu thông tin kết quả chuyến vào hệ thống. |
+| **BR-12** | Đánh giá & Quản lý | **Đánh giá chuyến đi** | Sau khi chuyến hoàn thành, khách hàng có thể thực hiện đánh giá chuyến đi và tài xế theo chức năng được hệ thống cung cấp. |
+| **BR-13** | Dữ liệu & Trạng thái | **Đảm bảo tính nhất quán trạng thái** | Mỗi chuyến chỉ được chuyển sang trạng thái tiếp theo khi thỏa mãn điều kiện của trạng thái hiện tại; hệ thống phải ghi nhận và cập nhật trạng thái thống nhất trong toàn bộ quy trình. |
