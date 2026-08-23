@@ -320,8 +320,7 @@ flowchart TD
 # BƯỚC 7: VẼ USE CASE TỔNG QUÁT
 
 ## Sơ đồ Use Case tổng quát của hệ thống CAB
-
-<img src="B7_UseCaseTongQuat.png" alt="Sơ đồ Use Case tổng quát" width="100%">
+<img src="images/B7_UseCaseTongQuat.png" alt="Sơ đồ Use Case tổng quát" width="100%">
 
 # BƯỚC 8: ĐẶC TẢ USE CASE
 
@@ -1893,15 +1892,16 @@ Mô tả quá trình hệ thống gửi thông báo đến người dùng thông
 
 ## BP-01. Quy trình đặt xe
 
-<img src="Đặt xe.jpg" alt="BP-01 - Quy trình đặt xe" width="100%">
+<img src="images/Đặt xe.jpg" alt="BP-01 - Quy trình đặt xe" width="100%">
 
 ## BP-02. Quy trình điều phối chuyến
 
-<img src="Điều phối chuyến.jpg" alt="BP-02 - Quy trình điều phối chuyến" width="100%">
+<img src="images/Điều phối chuyến.jpg" alt="BP-02 - Quy trình điều phối chuyến" width="100%">
+
 
 ## BP-03. Quy trình thực hiện chuyến
 
-<img src="Thực hiện chuyến.jpg" alt="BP-03 - Quy trình thực hiện chuyến" width="100%">
+<img src="images/Thực hiện chuyến.jpg" alt="BP-03 - Quy trình thực hiện chuyến" width="100%">
 
 # BƯỚC 10: QUY TẮC NGHIỆP VỤ HỆ THỐNG (BUSINESS RULES)
 
