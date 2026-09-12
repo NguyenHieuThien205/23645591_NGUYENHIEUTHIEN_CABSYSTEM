@@ -1920,3 +1920,67 @@ Mô tả quá trình hệ thống gửi thông báo đến người dùng thông
 | **BR-11** | Thực hiện chuyến | **Hoàn thành chuyến** | Khi chuyến đi kết thúc, hệ thống ghi nhận chuyến đã hoàn thành và lưu thông tin kết quả chuyến vào hệ thống. |
 | **BR-12** | Đánh giá & Quản lý | **Đánh giá chuyến đi** | Sau khi chuyến hoàn thành, khách hàng có thể thực hiện đánh giá chuyến đi và tài xế theo chức năng được hệ thống cung cấp. |
 | **BR-13** | Dữ liệu & Trạng thái | **Đảm bảo tính nhất quán trạng thái** | Mỗi chuyến chỉ được chuyển sang trạng thái tiếp theo khi thỏa mãn điều kiện của trạng thái hiện tại; hệ thống phải ghi nhận và cập nhật trạng thái thống nhất trong toàn bộ quy trình. |
+## Tài liệu API
+
+Tài liệu API của hệ thống được xây dựng theo chuẩn **OpenAPI 3.0.0** và được kiểm tra bằng **Swagger Editor**.
+
+Các API được phân chia theo từng nhóm chức năng và được lưu trữ trong thư mục `docs/api/`.
+
+### 1. Khách hàng
+
+| STT | Chức năng               | Tài liệu API                      |
+| --- | ------------------------ | ---------------------------------- |
+| 1   | Đăng ký và đăng nhập     | `01_customer_register_login.yaml` |
+| 2   | Quản lý hồ sơ             | `02_customer_manage_profile.yaml` |
+| 3   | Đặt xe                    | `03_customer_book_ride.yaml`      |
+| 4   | Theo dõi chuyến đi         | `04_customer_track_ride.yaml`     |
+| 5   | Thanh toán                | `05_customer_payment.yaml`        |
+| 6   | Xem lịch sử và đánh giá    | `06_customer_history_rating.yaml` |
+
+### 2. Tài xế
+
+| STT | Chức năng                          | Tài liệu API                              |
+| --- | ------------------------------------ | ------------------------------------------- |
+| 1   | Đăng ký hồ sơ và xe                  | `07_driver_register_profile_vehicle.yaml` |
+| 2   | Quản lý trạng thái hoạt động          | `08_driver_availability.yaml`             |
+| 3   | Tiếp nhận / từ chối chuyến           | `09_driver_accept_reject_ride.yaml`       |
+| 4   | Cập nhật tiến độ chuyến đi            | `10_driver_update_ride_progress.yaml`     |
+| 5   | Xem lịch sử chuyến đi và thu nhập     | `11_driver_history_income.yaml`           |
+
+### 3. Nhân viên vận hành
+
+| STT | Chức năng                   | Tài liệu API                        |
+| --- | ------------------------------ | ------------------------------------- |
+| 1   | Quản lý hồ sơ khách hàng        | `12_ops_manage_customer.yaml`       |
+| 2   | Quản lý hồ sơ tài xế và xe      | `13_ops_manage_driver_vehicle.yaml` |
+| 3   | Giám sát chuyến đi               | `14_ops_monitor_rides.yaml`         |
+| 4   | Xử lý chuyến lỗi                 | `15_ops_handle_failed_ride.yaml`    |
+| 5   | Tra cứu lịch sử giao dịch        | `16_ops_transaction_history.yaml`   |
+
+### 4. Quản trị viên hệ thống
+
+| STT | Chức năng                                 | Tài liệu API              |
+| --- | -------------------------------------------- | --------------------------- |
+| 1   | Quản lý vai trò và quyền truy cập (RBAC)      | `17_admin_rbac.yaml`      |
+| 2   | Xem nhật ký hoạt động (Audit Log)              | `18_admin_audit_log.yaml` |
+
+### 5. Ban lãnh đạo
+
+| STT | Chức năng          | Tài liệu API                     |
+| --- | --------------------- | ----------------------------------- |
+| 1   | Xem báo cáo và KPI     | `19_leadership_reports_kpi.yaml` |
+
+### 6. Hệ thống thanh toán
+
+| STT | Chức năng         | Tài liệu API              |
+| --- | -------------------- | --------------------------- |
+| 1   | Xử lý thanh toán      | `20_payment_gateway.yaml` |
+
+### Công cụ và tiêu chuẩn
+
+- **OpenAPI 3.0.0:** Tiêu chuẩn mô tả API.
+- **YAML:** Định dạng được sử dụng để khai báo các API.
+- **Swagger Editor:** Công cụ kiểm tra và hiển thị tài liệu API.
+- **HTTP Methods:** `GET`, `POST`, `PUT`, `DELETE`.
+- **HTTP Status Codes:** `200`, `201`, `400`, `401`, `403`, `404`, `500` tùy theo từng API.
+- **Authentication:** Sử dụng cơ chế xác thực phù hợp với từng API, bao gồm Bearer Token/JWT đối với các API yêu cầu đăng nhập.
