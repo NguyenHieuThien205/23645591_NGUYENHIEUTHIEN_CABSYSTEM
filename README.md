@@ -1924,63 +1924,40 @@ Mô tả quá trình hệ thống gửi thông báo đến người dùng thông
 
 Tài liệu API của hệ thống được xây dựng theo chuẩn **OpenAPI 3.0.0** và được kiểm tra bằng **Swagger Editor**.
 
-Các API được phân chia theo từng nhóm chức năng và được lưu trữ trong thư mục `docs/api/`.
+Các API được lưu trữ trong thư mục `api/`, đặt tên theo mã Use Case tương ứng.
 
-### 1. Khách hàng
-
-| STT | Chức năng               | Tài liệu API                      |
-| --- | ------------------------ | ---------------------------------- |
-| 1   | Đăng ký và đăng nhập     | `01_customer_register_login.yaml` |
-| 2   | Quản lý hồ sơ             | `02_customer_manage_profile.yaml` |
-| 3   | Đặt xe                    | `03_customer_book_ride.yaml`      |
-| 4   | Theo dõi chuyến đi         | `04_customer_track_ride.yaml`     |
-| 5   | Thanh toán                | `05_customer_payment.yaml`        |
-| 6   | Xem lịch sử và đánh giá    | `06_customer_history_rating.yaml` |
-
-### 2. Tài xế
-
-| STT | Chức năng                          | Tài liệu API                              |
-| --- | ------------------------------------ | ------------------------------------------- |
-| 1   | Đăng ký hồ sơ và xe                  | `07_driver_register_profile_vehicle.yaml` |
-| 2   | Quản lý trạng thái hoạt động          | `08_driver_availability.yaml`             |
-| 3   | Tiếp nhận / từ chối chuyến           | `09_driver_accept_reject_ride.yaml`       |
-| 4   | Cập nhật tiến độ chuyến đi            | `10_driver_update_ride_progress.yaml`     |
-| 5   | Xem lịch sử chuyến đi và thu nhập     | `11_driver_history_income.yaml`           |
-
-### 3. Nhân viên vận hành
-
-| STT | Chức năng                   | Tài liệu API                        |
-| --- | ------------------------------ | ------------------------------------- |
-| 1   | Quản lý hồ sơ khách hàng        | `12_ops_manage_customer.yaml`       |
-| 2   | Quản lý hồ sơ tài xế và xe      | `13_ops_manage_driver_vehicle.yaml` |
-| 3   | Giám sát chuyến đi               | `14_ops_monitor_rides.yaml`         |
-| 4   | Xử lý chuyến lỗi                 | `15_ops_handle_failed_ride.yaml`    |
-| 5   | Tra cứu lịch sử giao dịch        | `16_ops_transaction_history.yaml`   |
-
-### 4. Quản trị viên hệ thống
-
-| STT | Chức năng                                 | Tài liệu API              |
-| --- | -------------------------------------------- | --------------------------- |
-| 1   | Quản lý vai trò và quyền truy cập (RBAC)      | `17_admin_rbac.yaml`      |
-| 2   | Xem nhật ký hoạt động (Audit Log)              | `18_admin_audit_log.yaml` |
-
-### 5. Ban lãnh đạo
-
-| STT | Chức năng          | Tài liệu API                     |
-| --- | --------------------- | ----------------------------------- |
-| 1   | Xem báo cáo và KPI     | `19_leadership_reports_kpi.yaml` |
-
-### 6. Hệ thống thanh toán
-
-| STT | Chức năng         | Tài liệu API              |
-| --- | -------------------- | --------------------------- |
-| 1   | Xử lý thanh toán      | `20_payment_gateway.yaml` |
+| STT | Use Case | Chức năng                         | Tài liệu API                          |
+| --- | -------- | ---------------------------------- | --------------------------------------- |
+| 1   | UC-01    | Đăng nhập / Đăng xuất (UC-08)      | `api/01_auth_login.yaml`                  |
+| 2   | UC-02    | Đăng ký tài khoản                  | `api/02_customer_register.yaml`           |
+| 3   | UC-03    | Quản lý tài khoản                  | `api/03_account_management.yaml`          |
+| 4   | UC-04    | Đánh giá chuyến đi                 | `api/04_customer_rating.yaml`             |
+| 5   | UC-05    | Theo dõi chuyến đi (Khách hàng)    | `api/05_customer_track_ride.yaml`         |
+| 6   | UC-06    | Thanh toán                         | `api/06_customer_payment.yaml`            |
+| 7   | UC-07    | Đặt xe                             | `api/07_customer_book_ride.yaml`          |
+| 8   | UC-09    | Quản lý tài xế (Vận hành)          | `api/09_ops_manage_driver.yaml`           |
+| 9   | UC-10    | Theo dõi chuyến đi (Vận hành)      | `api/10_ops_monitor_rides.yaml`           |
+| 10  | UC-11    | Điều phối chuyến                   | `api/11_ops_dispatch_ride.yaml`           |
+| 11  | UC-12    | Xử lý sự cố                        | `api/12_ops_handle_incident.yaml`         |
+| 12  | UC-13    | Xem báo cáo                        | `api/13_report_view.yaml`                 |
+| 13  | UC-14    | Quản lý phương tiện                | `api/14_driver_manage_vehicle.yaml`       |
+| 14  | UC-15    | Cập nhật trạng thái sẵn sàng       | `api/15_driver_availability.yaml`         |
+| 15  | UC-16    | Nhận chuyến                        | `api/16_driver_accept_ride.yaml`          |
+| 16  | UC-17    | Cập nhật vị trí                    | `api/17_driver_update_location.yaml`      |
+| 17  | UC-18    | Cập nhật trạng thái chuyến         | `api/18_driver_update_ride_status.yaml`   |
+| 18  | UC-19    | Quản trị hệ thống                  | `api/19_admin_system_management.yaml`     |
+| 19  | UC-20    | Quản lý giao dịch                  | `api/20_finance_manage_transaction.yaml`  |
+| 20  | UC-21    | Đối soát giao dịch                 | `api/21_finance_reconciliation.yaml`      |
+| 21  | UC-22    | Theo dõi doanh thu                 | `api/22_finance_revenue_tracking.yaml`    |
+| 22  | UC-23    | Xử lý thanh toán (Payment Provider)| `api/23_payment_provider_process.yaml`    |
+| 23  | UC-24    | Gửi thông báo                      | `api/24_notification_send.yaml`           |
 
 ### Công cụ và tiêu chuẩn
 
 - **OpenAPI 3.0.0:** Tiêu chuẩn mô tả API.
 - **YAML:** Định dạng được sử dụng để khai báo các API.
 - **Swagger Editor:** Công cụ kiểm tra và hiển thị tài liệu API.
-- **HTTP Methods:** `GET`, `POST`, `PUT`, `DELETE`.
-- **HTTP Status Codes:** `200`, `201`, `400`, `401`, `403`, `404`, `500` tùy theo từng API.
-- **Authentication:** Sử dụng cơ chế xác thực phù hợp với từng API, bao gồm Bearer Token/JWT đối với các API yêu cầu đăng nhập.
+- **HTTP Methods:** `GET`, `POST`, `PUT`, `PATCH`, `DELETE`.
+- **HTTP Status Codes:** `200`, `201`, `202`, `400`, `401`, `402`, `403`, `404`, `408`, `409`, `500`, `502` tùy theo từng API.
+- **Authentication:** Bearer Token/JWT cho các API yêu cầu đăng nhập.
+```
