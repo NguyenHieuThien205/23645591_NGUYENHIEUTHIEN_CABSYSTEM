@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Quản lý giao dịch
+  description: API cho Bộ phận tài chính xem và quản lý giao dịch thanh toán (UC-20).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /finance/transactions:
+    get:
+      summary: Danh sách giao dịch thanh toán (UC-20)
+      description: Trả về danh sách giao dịch, hỗ trợ tìm kiếm theo mã chuyến hoặc mã giao dịch.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Danh sách giao dịch
+        '404':
+          description: Không tìm thấy giao dịch (Luồng ngoại lệ E1)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

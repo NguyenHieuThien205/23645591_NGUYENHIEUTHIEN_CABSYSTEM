@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Đặt xe
+  description: API cho phép Khách hàng tạo yêu cầu đặt xe và hệ thống chuyển sang quy trình điều phối/tìm tài xế.
+  version: 1.0.0
+
+servers:
+  - url: https://api.cabsystem.example.com/v1
+
+tags:
+  - name: Booking
+    description: Đặt xe và quản lý yêu cầu chuyến đi
+
+paths:
+  /rides:
+    post:
+      tags:
+        - Booking
+      summary: Tạo yêu cầu đặt xe (UC-07)
+      description: >
+        Khách hàng nhập điểm đón, điểm đến và chọn loại xe. Hệ thống kiểm tra dữ liệu,
+        tính cước dự kiến (nếu có), tạo yêu cầu chuyến đi và chuyển sang quá trình điều phối tự động.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - pickupLocation
+                - dropoffLocation
+                - vehicleType
+              properties:
+                pickupLocation:
+                  $ref: "#/components/schemas/Location"
+                dropoffLocation:
+                  $ref: "#/components/schemas/Location"
+                vehicleType:
+                  type: string
+                  enum:
+                    - BIKE
+                    - CAR_4_SEATS
+                    - CAR_7_SEATS
+                  example: CAR_4_SEATS
+                note:
+                  type: string
+                  description: Ghi chú thêm cho tài xế (không bắt buộc)
+                  example: "Đón ở cổng số 2"
+      responses:
+        "201":
+          description: Yêu cầu đặt xe được tạo thành công, đang ở trạng thái "Đang tìm tài xế"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RideResponse"
+        "400":
+          description: >
+            Dữ liệu không hợp lệ: thiếu điểm đón/điểm đến (E1),
+            hoặc điểm đón và điểm đến trùng nhau (Luồng thay thế 1.1.1).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Khách hàng chưa đăng nhập hoặc token không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Không có khả năng phục vụ / không tìm được phương án điều phối (E2)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Lỗi hệ thống
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /rides/{rideId}:
+    get:
+      tags:
+        - Booking
+      summary: Xem chi tiết / theo dõi chuyến đi (UC-05)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: rideId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Trả về thông tin chi tiết chuyến đi hiện tại
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RideResponse"
+        "404":
+          description: Không tìm thấy chuyến đi (Luồng ngoại lệ E1)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /rides/{rideId}/cancel:
+    post:
+      tags:
+        - Booking
+      summary: Hủy yêu cầu đặt xe (Luồng thay thế A1)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: rideId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Yêu cầu đặt xe đã được hủy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RideResponse"
+        "409":
+          description: Không thể hủy vì chuyến đã được tài xế nhận hoặc đã hoàn thành
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Location:
+      type: object
+      required:
+        - latitude
+        - longitude
+        - address
+      properties:
+        latitude:
+          type: number
+          format: double
+          example: 10.776889
+        longitude:
+          type: number
+          format: double
+          example: 106.700806
+        address:
+          type: string
+          example: "123 Nguyễn Huệ, Quận 1, TP.HCM"
+
+    RideResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - FINDING_DRIVER
+            - DRIVER_ASSIGNED
+            - ARRIVED_PICKUP
+            - IN_PROGRESS
+            - COMPLETED
+            - CANCELLED
+          example: FINDING_DRIVER
+        pickupLocation:
+          $ref: "#/components/schemas/Location"
+        dropoffLocation:
+          $ref: "#/components/schemas/Location"
+        vehicleType:
+          type: string
+          example: CAR_4_SEATS
+        estimatedFare:
+          type: number
+          format: double
+          example: 85000
+        driver:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: string
+              format: uuid
+            fullName:
+              type: string
+            plateNumber:
+              type: string
+            rating:
+              type: number
+              example: 4.8
+        createdAt:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: "PICKUP_DROPOFF_SAME"
+        message:
+          type: string
+          example: "Điểm đón và điểm đến không được trùng nhau"

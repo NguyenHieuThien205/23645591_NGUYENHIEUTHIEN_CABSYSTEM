@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Cập nhật trạng thái sẵn sàng
+  description: API cho Tài xế chuyển trạng thái sẵn sàng/không hoạt động (UC-15).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /drivers/me/status:
+    patch:
+      summary: Cập nhật trạng thái hoạt động của tài xế (UC-15)
+      description: Tài xế chuyển đổi giữa trạng thái Sẵn sàng và Không hoạt động.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - status
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - AVAILABLE
+                  - OFFLINE
+      responses:
+        '200':
+          description: Cập nhật trạng thái thành công
+        '409':
+          description: Tài xế đang thực hiện chuyến, không thể chuyển trạng thái (Luồng ngoại lệ E1)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

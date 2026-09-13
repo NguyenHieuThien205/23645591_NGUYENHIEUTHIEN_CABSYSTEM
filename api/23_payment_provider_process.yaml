@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Xử lý thanh toán (Payment Provider)
+  description: API webhook nhận kết quả xử lý giao dịch từ Payment Provider (UC-23).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /payments/webhook:
+    post:
+      summary: Nhận kết quả giao dịch từ Payment Provider (UC-23)
+      description: Payment Provider gọi về hệ thống CAB để thông báo kết quả xử lý giao dịch thanh toán.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - transactionId
+              - status
+              properties:
+                transactionId:
+                  type: string
+                  format: uuid
+                status:
+                  type: string
+                  enum:
+                  - SUCCESS
+                  - FAILED
+      responses:
+        '200':
+          description: Đã tiếp nhận kết quả giao dịch
+        '400':
+          description: Giao dịch bị từ chối (Luồng ngoại lệ E1)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '408':
+          description: Không nhận được phản hồi trong thời gian quy định (Luồng ngoại lệ E2)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

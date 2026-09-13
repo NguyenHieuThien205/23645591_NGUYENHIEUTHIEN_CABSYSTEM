@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Quản lý phương tiện
+  description: API cho Tài xế/Quản trị viên quản lý thông tin phương tiện (UC-14).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /vehicles/{vehicleId}:
+    put:
+      summary: Cập nhật thông tin phương tiện (UC-14)
+      description: Cập nhật biển số, loại xe, hãng xe.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Cập nhật thành công
+        '400':
+          description: Thông tin phương tiện không hợp lệ (Luồng ngoại lệ E1)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy phương tiện (Luồng ngoại lệ E2)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: vehicleId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

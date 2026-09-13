@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Điều phối chuyến
+  description: API cho Nhân viên vận hành phân công tài xế cho yêu cầu đặt xe (UC-11).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /ops/rides/{rideId}/dispatch:
+    post:
+      summary: Điều phối tài xế cho chuyến (UC-11)
+      description: Nhân viên vận hành chọn tài xế phù hợp từ danh sách đề xuất và gán cho chuyến đi.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - driverId
+              properties:
+                driverId:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Điều phối thành công
+        '409':
+          description: Không có tài xế phù hợp hoặc tài xế đã nhận chuyến khác (Luồng ngoại lệ E1, E2)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: rideId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

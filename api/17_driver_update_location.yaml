@@ -1,0 +1,56 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Cập nhật vị trí
+  description: API nhận dữ liệu vị trí GPS từ tài xế trong quá trình thực hiện chuyến (UC-17).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /drivers/me/location:
+    post:
+      summary: Gửi vị trí hiện tại (UC-17)
+      description: Ứng dụng tài xế gửi tọa độ định kỳ để hệ thống cập nhật vị trí phục vụ theo dõi chuyến.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - latitude
+              - longitude
+              properties:
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+                rideId:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Cập nhật vị trí thành công
+        '400':
+          description: Dữ liệu vị trí không hợp lệ (Luồng ngoại lệ E1)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

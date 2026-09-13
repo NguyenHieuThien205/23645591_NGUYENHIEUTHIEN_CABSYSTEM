@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Xử lý sự cố
+  description: API cho Nhân viên vận hành tiếp nhận và xử lý sự cố phát sinh trong chuyến (UC-12).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /ops/incidents/{incidentId}/resolve:
+    post:
+      summary: Xử lý sự cố chuyến đi (UC-12)
+      description: Nhân viên vận hành ghi nhận phương án xử lý và cập nhật trạng thái sự cố.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - resolution
+              properties:
+                resolution:
+                  type: string
+                  example: Hủy chuyến do lỗi kỹ thuật
+      responses:
+        '200':
+          description: Sự cố đã được xử lý
+        '404':
+          description: Không tìm thấy sự cố
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

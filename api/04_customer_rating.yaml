@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Đánh giá chuyến đi
+  description: API cho phép Khách hàng đánh giá tài xế sau khi hoàn thành chuyến (UC-04).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /rides/{rideId}/rating:
+    post:
+      summary: Gửi đánh giá chuyến đi (UC-04)
+      description: Khách hàng chấm điểm (1-5 sao) và có thể để lại nhận xét cho tài xế sau khi chuyến
+        hoàn thành.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - rating
+              properties:
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                  example: 5
+                comment:
+                  type: string
+                  example: Tài xế thân thiện, đúng giờ
+      responses:
+        '201':
+          description: Đánh giá được ghi nhận
+        '400':
+          description: Chuyến đi chưa hoàn thành, không thể đánh giá (Luồng ngoại lệ E1)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Không tìm thấy chuyến đi
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: rideId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

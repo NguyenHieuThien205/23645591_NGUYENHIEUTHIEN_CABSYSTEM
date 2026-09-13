@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Theo dõi doanh thu
+  description: API cho Bộ phận tài chính theo dõi doanh thu theo thời gian (UC-22).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /finance/revenue:
+    get:
+      summary: Xem doanh thu theo khoảng thời gian (UC-22)
+      description: Trả về tổng doanh thu và dữ liệu tổng hợp theo tiêu chí lọc.
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Dữ liệu doanh thu
+        '404':
+          description: Không có dữ liệu doanh thu phù hợp (Luồng ngoại lệ E1)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

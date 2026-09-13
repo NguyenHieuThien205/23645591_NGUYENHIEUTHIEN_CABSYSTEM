@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Đối soát giao dịch
+  description: API cho Bộ phận tài chính đối chiếu giao dịch nội bộ với Payment Provider (UC-21).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /finance/reconciliation:
+    post:
+      summary: Thực hiện đối soát giao dịch (UC-21)
+      description: Hệ thống so sánh dữ liệu giao dịch nội bộ với dữ liệu từ Payment Provider theo khoảng
+        thời gian.
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - fromDate
+              - toDate
+              properties:
+                fromDate:
+                  type: string
+                  format: date
+                toDate:
+                  type: string
+                  format: date
+      responses:
+        '200':
+          description: Kết quả đối soát
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  matchedCount:
+                    type: integer
+                  mismatchedTransactions:
+                    type: array
+                    items:
+                      type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi

@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: CAB System API - Cập nhật trạng thái chuyến
+  description: API cho Tài xế cập nhật tiến độ chuyến đi theo từng giai đoạn (UC-18).
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.example.com/v1
+paths:
+  /rides/{rideId}/status:
+    patch:
+      summary: Cập nhật trạng thái chuyến (UC-18)
+      description: 'Tài xế cập nhật trạng thái: Đã đến điểm đón, Đang di chuyển, Hoàn thành.'
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - status
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - ARRIVED_PICKUP
+                  - IN_PROGRESS
+                  - COMPLETED
+      responses:
+        '200':
+          description: Cập nhật trạng thái thành công
+        '409':
+          description: Chuyển trạng thái không hợp lệ (Luồng ngoại lệ E1)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      parameters:
+      - name: rideId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          example: SAMPLE_ERROR
+        message:
+          type: string
+          example: Mô tả lỗi
